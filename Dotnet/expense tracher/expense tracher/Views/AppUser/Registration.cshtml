@@ -18,24 +18,39 @@
                 <img class="logo-img" src="~/images/logo.png" alt="logo" />
             </div>
             <div class="d-flex justify-content-center mb-3">
-                <h4 class="text-white">Login</h4>
+                <h4 class="text-white">Registration</h4>
             </div>
             <form action="/" method="post">
                 <div class="form-group mb-3">
+                    <label class="control-label mb-2 text-white">Name</label>
+                    <input class="form-control" />
+                </div>
+                <div class="form-group mb-3">
                     <label class="control-label mb-2 text-white">User Name</label>
+                    <input class="form-control" />
+                </div>
+                <div class="form-group mb-3">
+                    <label class="control-label mb-2 text-white">Phone Number</label>
+                    <input class="form-control" />
+                </div>
+                <div class="form-group mb-3">
+                    <label class="control-label mb-2 text-white">Email</label>
                     <input class="form-control" />
                 </div>
                 <div class="form-group mb-3 text-white">
                     <label class="control-label mb-2">Password</label>
                     <input class="form-control" />
                 </div>
-                <div class="form-group mt-4 mb-3">
-                    <a href="/Home/Index" class="primary-btn w-100">Login</a>
+                <div class="form-group mb-3 text-white">
+                    <label class="control-label mb-2">Confirm Password</label>
+                    <input class="form-control" />
                 </div>
+                <div class="form-group mt-4 mb-3">
+                    <a href="/Home/Index" class="primary-btn w-100">Register</a>
+                </div>
+                <p class="text-white-50">Aleady have an account? <a class="sign-up-link" href="/AppUser/Login"> Sign In</a></p>
             </form>
-            <p class="text-white-50">Don't have an account? <a class="sign-up-link" href="/AppUser/Registration"> Sign Up</a></p>
         </div>
-        
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
