@@ -3,32 +3,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace expense_tracher.Controllers
 {
-    public class AppUserController : Controller
+    public class CategoryController : Controller
     {
-        // GET: AppUserController
-        public ActionResult Login()
+        // GET: CategoryController
+        public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Registration()
-        {
-            return View();
-        }
-
-        // GET: AppUserController/Details/5
+        // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: AppUserController/Create
+        // GET: CategoryController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: AppUserController/Create
+        // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -43,13 +38,13 @@ namespace expense_tracher.Controllers
             }
         }
 
-        // GET: AppUserController/Edit/5
+        // GET: CategoryController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: AppUserController/Edit/5
+        // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -64,13 +59,13 @@ namespace expense_tracher.Controllers
             }
         }
 
-        // GET: AppUserController/Delete/5
+        // GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: AppUserController/Delete/5
+        // POST: CategoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

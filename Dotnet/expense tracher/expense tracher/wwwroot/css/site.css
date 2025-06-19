@@ -6,7 +6,39 @@
     --forground: #0A0A09;
 }
 
-h1{
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--tp-poppins);
+    scroll-behavior: smooth;
+}
+
+html {
+    font-size: 14px;
+    scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+    html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: var(--secondary);
+}
+
+h1 {
     font-size: 64px;
 }
 
@@ -26,41 +58,72 @@ p {
     font-size: 16px;
 }
 
-.small-text{
+.small-text {
     font-size: 12px;
 }
 
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.heading {
-    color: var(--primary);
-}
-
-.login-container {
+.login-container{
     background-image: url('../images/login-bg.jpg');
+    min-height: 100vh;
     width: 100%;
-    height: 100vh;
     background-position: center;
     background-size: cover;
+    padding: 50px;
+}
+
+.login-form-container {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.3px);
+    -webkit-backdrop-filter: blur(7.3px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 400px;
+    padding: 32px;
+}
+
+    .login-form-container .logo-img{
+        width: 60px
+    }
+
+.form-control {
+    background: #f7f9fa4d;
+    border: none;
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    background: #f7f9fa4d;
+}
+
+.sign-up-link{
+    color: var(--accent);
+}
+
+.card {
+    background: #ffffff57;
+    padding: 20px 40px;
+}
+
+.navbar {
+    background-color: #b7d6ec;
+}
+/* buttons */
+.primary-btn {
+    display: block;
+    background: var(--primary);
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    color: var(--background);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.primary-btn:hover {
+    background: var(--accent);
+    color: white !important;
 }
