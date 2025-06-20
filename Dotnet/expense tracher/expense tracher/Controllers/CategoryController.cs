@@ -10,7 +10,10 @@ namespace expense_tracher.Controllers
         {
             return View();
         }
-
+        public ActionResult Edit()
+        {
+            return View();
+        }
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
@@ -39,10 +42,10 @@ namespace expense_tracher.Controllers
         }
 
         // GET: CategoryController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: CategoryController/Edit/5
         [HttpPost]
