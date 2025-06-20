@@ -15,7 +15,14 @@ namespace expense_tracher.Controllers
         {
             return View();
         }
-
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        public ActionResult ProfileEdit()
+        {
+            return View();
+        }
         // GET: AppUserController/Details/5
         public ActionResult Details(int id)
         {
