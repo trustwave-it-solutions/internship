@@ -1,0 +1,66 @@
+﻿@model expense_tracher.Models.TblTransaction
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+<hr />
+<div class="row">
+    <div class="card"
+    <div class="cols-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row w-100">
+                    <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="Category" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+            </div>
+            </div>
+            <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label asp-for="PaymentMode" class="control-label"></label>
+                <select asp-for="PaymentMode" class ="form-control" asp-items="ViewBag.PaymentModeId"></select>
+            </div>
+            </div>
+            <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                <input type="submit" value="Edit" class="primary-btn float-end" />
+                 </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
