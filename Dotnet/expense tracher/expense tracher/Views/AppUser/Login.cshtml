@@ -1,4 +1,6 @@
-﻿@{
+﻿@model expense_tracher.Models.LoginViewModel
+
+@{
     Layout = null;
 }
 
@@ -20,17 +22,20 @@
             <div class="d-flex justify-content-center mb-3">
                 <h4 class="text-white">Login</h4>
             </div>
-            <form action="/" method="post">
+            <form asp-action="Login" method="post">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group mb-3">
                     <label class="control-label mb-2 text-white">User Name</label>
-                    <input class="form-control" />
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3 text-white">
                     <label class="control-label mb-2">Password</label>
-                    <input class="form-control" />
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-4 mb-3">
-                    <a href="/Home/Index" class="primary-btn w-100">Login</a>
+                    <button type="submit" class="primary-btn w-100">Login</button>
                 </div>
             </form>
             <p class="text-white-50">Don't have an account? <a class="sign-up-link" href="/AppUser/Registration"> Sign Up</a></p>
@@ -41,5 +46,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @section script{
+        <partial name="_validationScriptPartia" />
+    }
 </body>
 </html>
