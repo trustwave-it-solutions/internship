@@ -1,19 +1,20 @@
-﻿@model IEnumerable<expense_tracher.Models.TblTransaction>
+﻿@model IEnumerable<expense_tracher.Models.IncomeViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Income</h1>
 <div class="row justify-content-end mb-4">
-    <div class="col-sm-6"><a href="#" class="primary-btn float-end">Add Income</a></div>
+    <div class="col-sm-6"><a asp-action="Create"class="primary-btn float-end">Add Income</a></div>
 </div>
 <div class="row">
-    <div class="col-md-8""></div>
+    <div class="col-md-8" "><h4>Income</h4></div>
     <div class="col-sm-4">
         <input class="form-control float-end" placeholder="Search" />
     </div>
 </div>
+<hr class="mb-4"/>
+<div class="card">
 <table class="table">
     <thead>
         <tr>
@@ -36,34 +37,21 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Anu</td>
-            <td> 2000</td>
-            <td>Rent</td>
-            <td>UPI</td>
-            <td><i class="bi bi-trash3-fill me-3"></i><i class="bi bi-pencil me-3"></i><i class="bi bi-layout-text-window-reverse me-3"></i></td>
-        </tr>
-        <tr>
-            <td>Linu</td>
-            <td> 1000</td>
-            <td>Groceries</td>
-            <td>UPI</td>
-            <td><i class="bi bi-trash3-fill me-3"></i><i class="bi bi-pencil me-3"></i><i class="bi bi-layout-text-window-reverse me-3"></i></td>
-        </tr>
-        <tr>
-            <td>Snigdha</td>
-            <td> 3000</td>
-            <td>Rent</td>
-            <td>UPI</td>
-            <td><i class="bi bi-trash3-fill me-3"></i><i class="bi bi-pencil me-3"></i><i class="bi bi-layout-text-window-reverse me-3"></i></td>
-        </tr>
-        <tr>
-            <td>Hima</td>
-            <td> 5000</td>
-            <td>Rent</td>
-            <td>UPI</td>
-            <td><i class="bi bi-trash3-fill me-3"></i><i class="bi bi-pencil me-3"></i><i class="bi bi-layout-text-window-reverse me-3"></i></td>
-        </tr>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Amount</td>
+                    <td>@item.Category</td>
+                    <td>@item.PaymentMode</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill me-3"></i></a>
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil me-3"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-layout-text-window-reverse me-3"></i></a>
+                    </td>
+                </tr>
+            }
+           
 @* @foreach (var item in Model) {
         <tr>
             <td>
@@ -105,3 +93,4 @@
 } *@
     </tbody>
 </table>
+</div>
