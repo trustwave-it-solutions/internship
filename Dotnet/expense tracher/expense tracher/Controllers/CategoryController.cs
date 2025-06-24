@@ -1,23 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using expense_tracher.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace expense_tracher.Controllers
 {
     public class CategoryController : Controller
     {
+        private readonly ExpenseTrackerDbContext _context;
+        public CategoryController(ExpenseTrackerDbContext context)
+        {
+            _context = context;
+        }
         // GET: CategoryController
         public ActionResult Index()
         {
-            return View();
+            var data = _context.TblCategories.ToList();
+            return View(data);
         }
-        public ActionResult Edit()
-        {
-            return View();
-        }
+        
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var data = _context.TblCategories.Where(x=> x.Id == id).FirstOrDefault();
+            return View(data);
         }
 
         // GET: CategoryController/Create
@@ -28,37 +34,75 @@ namespace expense_tracher.Controllers
 
         // POST: CategoryController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CategoryViewModel categoryViewModel)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if(!ModelState.IsValid)
+                {
+                    TempData["ErrorMessage"] = "Invalid input.";
+                    return View(categoryViewModel);
+                }
+                var isExist = _context.TblCategories.Any(c => c.Name  == categoryViewModel.Name);
+                if (isExist)
+                {
+                    TempData["ErrorMessage"] = "Category already exist.";
+                    return View(categoryViewModel);
+                }
+                TblCategory category = new TblCategory() 
+                {
+                    Name = categoryViewModel.Name,
+                    Description = categoryViewModel.Description,
+                    CreatedAt = DateTime.UtcNow,
+                    ModifiedAt = DateTime.UtcNow,
+                    IsDeleted = false
+                };
+                _context.TblCategories.Add(category);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Category saved successfully!";
+                return RedirectToAction("Create");
             }
             catch
             {
-                return View();
+                TempData["ErrorMessage"] = "Something went wrong. Please try again.";
+                return View(categoryViewModel);
             }
         }
 
         // GET: CategoryController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+        public ActionResult Edit(int id)
+        {
+            var data = _context.TblCategories.Where(x => x.Id == id).FirstOrDefault();
+            CategoryViewModel categoryViewModel = new CategoryViewModel() 
+            {
+                Id = data.Id,
+                Name = data.Name,
+                Description = data.Description,
+            };
+            return View(categoryViewModel);
+        }
 
-        // POST: CategoryController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(CategoryViewModel categoryViewModel)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var data = _context.TblCategories.Where(x => x.Id == categoryViewModel.Id).FirstOrDefault();
+                if (data != null)
+                {
+                    data.Name = categoryViewModel.Name;
+                    data.Description = categoryViewModel.Description;
+                    data.ModifiedAt = DateTime.UtcNow;
+                    _context.TblCategories.Update(data);
+                    _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Category updated successfully!";
+                }
+                return RedirectToAction("Edit");
             }
             catch
             {
-                return View();
+                TempData["ErrorMessage"] = "Something went wrong. Please try again.";
+                return View(categoryViewModel);
             }
         }
 

@@ -10,7 +10,7 @@ namespace expense_tracher.Models;
 public partial class TblCategory
 {
     [Key]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     [StringLength(150)]
     public string Name { get; set; } = null!;
