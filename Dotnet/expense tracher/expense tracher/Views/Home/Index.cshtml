@@ -1,9 +1,11 @@
-﻿@{
+﻿@model expense_tracher.Models.DashboardViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4 heading" id="headingLarge">Welcome</h1>
+    <h1 class="display-4 heading" id="headingLarge">Welcome - @Model.UserName</h1>
     
 </div>
 <div class="row justify-content-end mb-4">
@@ -42,21 +44,23 @@
                 <thead>
                     <tr>
                         <th width="80%">Name</th>
+                        <th width="80%">Category</th>
+                        <th width="80%">Amount</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @* @foreach (var item in Model)
+                    @foreach (var item in Model.Expenses)
                     {
                         <tr>
                             <td>@item.Name</td>
+                            <td>@item.Category</td>
+                            <td>@item.Amount</td>
                             <td>
-                                <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill me-3"></i></a>
-                                <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil me-3"></i></a>
                                 <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-layout-text-window-reverse me-3"></i></a>
                             </td>
                         </tr>
-                    } *@
+                    } 
                 </tbody>
             </table>
     </div>
