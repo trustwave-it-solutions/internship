@@ -112,7 +112,7 @@ p {
 .primary-btn {
     display: block;
     background: var(--primary);
-    padding: 8px;
+    padding: 8px 20px;
     border-radius: 5px;
     border: none;
     transition: all 0.3s ease-in-out;
@@ -127,6 +127,26 @@ p {
     background: var(--accent);
     color: white !important;
 }
+
+.secondary-btn {
+    display: block;
+    background: var(--secondary);
+    padding: 8px 20px;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    color: var(--background);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    width: fit-content;
+}
+
+    .secondary-btn:hover {
+        background: var(--accent);
+        color: white !important;
+    }
+
 .change-container {
     background-color: #3498db;
     min-height: 100vh;
