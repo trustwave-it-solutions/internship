@@ -20,8 +20,8 @@ namespace expense_tracher.Controllers
             var incomeResult = await (from income in _context.TblTransactions
                                        join category in _context.TblCategories on income.CategoryId equals category.Id
                                        join paymentMode in _context.TblPaymentModes on income.PaymentModeId equals paymentMode.Id
-                                       where income.IsDeleted != true
-                                       select new IncomeViewModel
+                                       where income.IsDeleted != true && income.PaymentTypeId == 1
+                                      select new IncomeViewModel
                                        {
                                            Id = income.Id,
                                            Name = income.Name,
@@ -72,7 +72,7 @@ namespace expense_tracher.Controllers
                     Note = incomeViewModel.Note,
                     Amount = incomeViewModel.Amount,
                     PaymentModeId = incomeViewModel.PaymentModeId,
-                    PaymentTypeId = 2,
+                    PaymentTypeId = 1,
                     CreatedAt = DateTime.UtcNow,
                     ModifiedAt = DateTime.UtcNow,
                     IsDeleted = false,

@@ -19,14 +19,14 @@ namespace expense_tracher.Controllers
         public async Task<IActionResult> Index()
         {
             try
-                {
-                 var userIdString = User.FindFirst("Id")?.Value;
+            {
+                var userIdString = User.FindFirst("Id")?.Value;
                 int userId = int.Parse(userIdString);
                 DashboardViewModel dashboardViewModel = new DashboardViewModel();
                 dashboardViewModel.UserName = User.FindFirst("UserName")?.Value ?? "Guest";
                 dashboardViewModel.Expenses = await (from expense in _context.TblTransactions
                                                      join category in _context.TblCategories on expense.CategoryId equals category.Id
-                                                     where expense.IsDeleted != true && expense.UserId == userId && expense.CreatedAt >= DateTime.Now.AddMonths(-1)
+                                                     where expense.IsDeleted != true && expense.UserId == userId && expense.CreatedAt >= DateTime.Now.AddMonths(-1) && expense.PaymentTypeId==2
                                                      select new ExpenseViewModel
                                                      {
                                                          Id = expense.Id,
@@ -36,14 +36,27 @@ namespace expense_tracher.Controllers
                                                          PaymentMode = "test",
                                                      }
                                            ).ToListAsync();
+                dashboardViewModel.Incomes = await (from income in _context.TblTransactions
+                                                     join category in _context.TblCategories on income.CategoryId equals category.Id
+                                                    where income.IsDeleted != true && income.UserId == userId && income.CreatedAt >= DateTime.Now.AddMonths(-1) && income.PaymentTypeId==1
+                                                     select new IncomeViewModel
+                                                     {
+                                                         Id = income.Id,
+                                                         Name = income.Name,
+                                                         Category = category.Name,
+                                                         Amount = income.Amount,
+                                                         PaymentMode = "test",
+                                                     }
+                                           ).ToListAsync();
                 return View(dashboardViewModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return View();
             }
         }
 
+     
         public IActionResult Privacy()
         {
             return View();
