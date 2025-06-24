@@ -1,4 +1,4 @@
-using expense_tracher.Models;
+ using expense_tracher.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,6 +15,7 @@ namespace expense_tracher.Controllers
 
         public IActionResult Index()
         {
+            var userName = User.FindFirst("UserName")?.Value;
             return View();
         }
 

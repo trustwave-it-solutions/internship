@@ -1,6 +1,6 @@
 ﻿@model expense_tracher.Models.ProfileEditViewModel
 
-<div class="row justify-content-end mb-4">
+ <div class="row justify-content-end mb-4">
 </div>
     <div class="row">
         <div class="col-sm-6 ">
@@ -19,7 +19,7 @@
                         <h4 class="text-white">Change details</h4>
                     </div>
                 <form asp-action="ProfileEdit" method="post">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" }) 
                         <div class="form-group mb-3">
                             <label class="control-label mb-2 text-white">username</label>
                         <input asp-for="UserName" class="form-control" />
