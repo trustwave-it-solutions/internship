@@ -1,4 +1,5 @@
-﻿@model expense_tracher.Models.TblTransaction
+﻿@using expense_tracher.Enum
+@model expense_tracher.Models.ExpenseViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,49 +12,60 @@
 <div class="row">
     <div class="card">
         <div class="col-md-12">
-            <form asp-action="Create">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+            }
+            <form asp-action="Edit">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row w-100">
                     <div class="col-md-6">
 
                         <div class="form-group">
-                            <label asp-for="Name" class="control-label"></label>
+                            <label asp-for="Name" class="control-label">name</label>
                             <input asp-for="Name" class="form-control" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label asp-for="Note" class="control-label"></label>
+                            <label asp-for="Note" class="control-label">note</label>
                             <input asp-for="Note" class="form-control" />
                             <span asp-validation-for="Note" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label asp-for="Category" class="control-label"></label>
-                            <input asp-for="Category" class="form-control" />
+                            <label class="control-label">category</label>
+                            <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(Model.categoryList, "Id", "Name"))"></select>
+                            
                             <span asp-validation-for="Category" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label asp-for="PaymentMode" class="control-label"></label>
-                            <input asp-for="PaymentMode" class="form-control" />
+                            <label asp-for="PaymentMode" class="control-label">PaymentMode</label>
+                            <select asp-for="PaymentModeId" class="form-control" asp-items="Html.GetEnumSelectList<PaymentMode>()"></select>
+                            
                             <span asp-validation-for="PaymentMode" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label asp-for="Amount" class="control-label"></label>
+                            <label asp-for="Amount" class="control-label">amount</label>
                             <input asp-for="Amount" class="form-control" />
                             <span asp-validation-for="Amount" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <input type="submit" value="" class="primary-btn float-end" />
+                            <button type="submit" value="" class="primary-btn float-end" >change</button>
                         </div>
             </form>
         </div>
