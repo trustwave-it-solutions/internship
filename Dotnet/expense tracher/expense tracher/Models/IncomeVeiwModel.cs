@@ -12,6 +12,8 @@
         public string? PaymentMode { get; set; }
         public int PaymentTypeId { get; set; }
         public decimal Amount { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
         public List<CategoryViewModel> categoryList { get; set; } = new List<CategoryViewModel>();
     }
 }

@@ -81,24 +81,129 @@ namespace expense_tracher.Controllers
                 };
                 _context.TblTransactions.Add(tblTransaction);
                 _context.SaveChanges();
+                TempData["SuccessMessage"] = "Income saved successfully!";
                 return RedirectToAction("Create");
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Something went wrong. Please try again.";
+                return View();
+            }
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+            try
+            {
+                
+                IncomeViewModel incomeViewModel = new IncomeViewModel();
+                var categoryList = _context.TblCategories.ToList();
+                List<CategoryViewModel> categoryViewModel = new List<CategoryViewModel>();
+
+                foreach (var item in categoryList)
+                {
+                    categoryViewModel.Add(new CategoryViewModel
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+                var incomeResult = await(from income in _context.TblTransactions
+                                         join category in _context.TblCategories on income.CategoryId equals category.Id
+                                         join paymentMode in _context.TblPaymentModes on income.PaymentModeId equals paymentMode.Id
+                                         where income.Id == id
+                                         select new IncomeViewModel
+                                         {
+                                             Id = income.Id,
+                                             Name = income.Name,
+                                             Category = category.Name,
+                                             CategoryId = income.CategoryId,
+                                             Amount = income.Amount,
+                                             PaymentMode = paymentMode.PaymentMode,
+                                             PaymentModeId = income.PaymentModeId
+                                         }
+                                      ).FirstOrDefaultAsync();
+                if (incomeResult != null)
+                {
+                    incomeViewModel = incomeResult;
+                    incomeViewModel.categoryList = categoryViewModel;
+                }
+                return View(incomeViewModel);
             }
             catch
             {
                 return View();
             }
         }
-        public IActionResult Edit()
+
+        [HttpPost]
+        public IActionResult Edit(IncomeViewModel incomeViewModel)
         {
-            return View();
+            try
+            {
+                var data = _context.TblTransactions.Where(x => x.Id == incomeViewModel.Id).FirstOrDefault();
+                data.Note = incomeViewModel.Note;
+                data.Name = incomeViewModel.Name;
+                data.Amount = incomeViewModel.Amount;
+                data.PaymentModeId = incomeViewModel.PaymentModeId;
+                data.ModifiedAt = DateTime.UtcNow;
+                data.CategoryId = incomeViewModel.CategoryId;
+                _context.TblTransactions.Update(data);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Income updated successfully!";
+                return RedirectToAction("Edit");
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Something went wrong. Please try again.";
+                return View();
+            }
         }
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
-            return View();
+            var data = _context.TblTransactions.Where(x => x.Id == id).FirstOrDefault();
+            return View(data);
         }
-        public IActionResult Details()
+
+        [HttpPost]
+        public IActionResult DeleteTransaction(int id)
         {
-            return View();
+            var data = _context.TblTransactions.Where(x => x.Id == id).FirstOrDefault();
+            data.IsDeleted = true;
+            _context.TblTransactions.Update(data);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Details(int id)
+        {
+            try
+            {
+                IncomeViewModel incomeViewModel = new IncomeViewModel();
+                var incomeResult = await(from income in _context.TblTransactions
+                                         join category in _context.TblCategories on income.CategoryId equals category.Id
+                                         join paymentMode in _context.TblPaymentModes on income.PaymentModeId equals paymentMode.Id
+                                         where income.Id==id
+                                         select new IncomeViewModel
+                                         {
+                                             Id = income.Id,
+                                             Name = income.Name,
+                                             Category = category.Name,
+                                             Amount = income.Amount,
+                                             PaymentMode = paymentMode.PaymentMode,
+                                             CreatedAt = income.CreatedAt,
+                                             ModifiedAt = income.ModifiedAt
+                                         }
+                                      ).FirstOrDefaultAsync();
+                if (incomeResult != null)
+                {
+                    incomeViewModel = incomeResult;
+                }
+                return View(incomeViewModel);
+            }
+            catch
+            {
+                return View();
+            }
+           
         }
     }
 }
