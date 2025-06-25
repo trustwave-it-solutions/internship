@@ -163,7 +163,7 @@ namespace expense_tracher.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
-            return View(profileEditViewModel);
+            return View(profileEditViewModel); 
         }
         // GET: AppUserController/Details/5
         public ActionResult Details(int id)
