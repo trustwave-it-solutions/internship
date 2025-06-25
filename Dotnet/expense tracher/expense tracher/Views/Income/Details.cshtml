@@ -1,4 +1,4 @@
-﻿@model expense_tracher.Models.TblTransaction
+﻿@model expense_tracher.Models.IncomeViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -60,14 +60,6 @@
                                 <label asp-for="PaymentMode" class="control-label"></label>
                                 <input asp-for="PaymentMode" class="form-control" />
                                 <span asp-validation-for="PaymentMode" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-
-                            <div class="form-group">
-                                <label asp-for="PaymentType" class="control-label"></label>
-                                <input asp-for="PaymentType" class="form-control" />
-                                <span asp-validation-for="PaymentType" class="text-danger"></span>
                             </div>
                         </div>
                     </div>

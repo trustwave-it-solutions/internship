@@ -1,4 +1,5 @@
-﻿@model expense_tracher.Models.TblTransaction
+﻿@using expense_tracher.Enum
+@model expense_tracher.Models.IncomeViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,7 +10,15 @@
 <div class="row">
     <div class="card"
     <div class="cols-md-4">
-        <form asp-action="Create">
+        @if (TempData["SuccessMessage"] != null)
+            {
+                    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+            }
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row w-100">
                     <div class="col-md-6">
@@ -27,16 +36,18 @@
             </div>
             </div>
             <div class="col-md-6 mb-3">
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <select asp-for="Category" class ="form-control" asp-items="ViewBag.CategoryId"></select>
-            </div>
+                <div class="form-group">
+                    <label class="control-label">Category</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(Model.categoryList, "Id", "Name"))"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
             </div>
             <div class="col-md-6 mb-3">
-            <div class="form-group">
-                <label asp-for="PaymentMode" class="control-label"></label>
-                <select asp-for="PaymentMode" class ="form-control" asp-items="ViewBag.PaymentModeId"></select>
-            </div>
+                <div class="form-group">
+                    <label class="control-label">PaymentMode</label>
+                    <select asp-for="PaymentModeId" class="form-control" asp-items="Html.GetEnumSelectList<PaymentMode>()"></select>
+                    <span asp-validation-for="PaymentModeId" class="text-danger"></span>
+                </div>
             </div>
             <div class="col-md-6 mb-3">
             <div class="form-group">
