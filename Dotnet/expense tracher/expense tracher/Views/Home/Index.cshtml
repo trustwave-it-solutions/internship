@@ -13,6 +13,9 @@
 <div class="row">
     <div class="col-sm-6 ">
         <h5 class="text-black" id="headingLarge">Income</h5>
+        <div class="bg-light p-2 rounded">
+            <h6 class="text-black">Total Income: <span class="text-success">@Model.TotalIncome</span></h6>
+        </div>
         <div class="card">
             <table class="table">
                 <thead>
@@ -42,7 +45,10 @@
     </div>
     <div class="col-sm-6">
         <h5 class="text-black" id="headingLarge">Expense</h5>
-        <div class="card">
+        <div class="bg-light p-2 rounded">
+            <h6 class="text-black">Total Expense: <span class="text-success">@Model.TotalExpense</span></h6>
+            </div>
+            <div class="card">
             <table class="table">
                 <thead>
                     <tr>

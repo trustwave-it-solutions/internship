@@ -2,6 +2,7 @@
 using expense_tracher.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace expense_tracher.Controllers
@@ -23,11 +24,11 @@ namespace expense_tracher.Controllers
                                        where expense.IsDeleted != true && expense.PaymentTypeId == 2
                                        select new ExpenseViewModel
                                        {
-                                           Id=expense.Id,
-                                           Name=expense.Name,
-                                           Category=category.Name,
-                                           Amount=expense.Amount,
-                                           PaymentMode=paymentMode.PaymentMode
+                                           Id = expense.Id,
+                                           Name = expense.Name,
+                                           Category = category.Name,
+                                           Amount = expense.Amount,
+                                           PaymentMode = paymentMode.PaymentMode
                                        }
                                        ).ToListAsync();
             return View(expenseResult);
@@ -81,24 +82,127 @@ namespace expense_tracher.Controllers
                 };
                 _context.TblTransactions.Add(tblTransaction);
                 _context.SaveChanges();
+                TempData["SuccessMessage"] = "Category updated successfully!";
                 return RedirectToAction("Create");
             }
             catch
             {
+                TempData["ErrorMessage"] = "Something went wrong. Please try again.";
                 return View();
             }
         }
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            ExpenseViewModel expenseViewModels = new ExpenseViewModel();
+            var categoryList = _context.TblCategories.ToList();
+            List<CategoryViewModel> categoryViewModel = new List<CategoryViewModel>();
+
+            foreach (var item in categoryList)
+            {
+                categoryViewModel.Add(new CategoryViewModel
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                });
+            }
+            var expenseResult = await (from expense in _context.TblTransactions
+                                       join category in _context.TblCategories on expense.CategoryId equals category.Id
+                                       join paymentMode in _context.TblPaymentModes on expense.PaymentModeId equals paymentMode.Id
+                                       where expense.Id == id 
+                                       select new ExpenseViewModel
+                                       {
+                                           Id = expense.Id,
+                                           Name = expense.Name,
+                                           Category = category.Name,
+                                           CategoryId = expense.CategoryId,
+                                           Amount = expense.Amount,
+                                           PaymentMode = paymentMode.PaymentMode,
+                                           PaymentModeId = expense.PaymentModeId,
+                                       }
+                                       ).FirstOrDefaultAsync();
+            if(expenseResult != null)
+            {
+                expenseViewModels = expenseResult;
+                expenseViewModels.categoryList = categoryViewModel;
+            }
+            return View(expenseViewModels);
         }
-        public IActionResult Delete()
+        
+        [HttpPost]
+        public IActionResult Edit(ExpenseViewModel expenseViewModel)
         {
-            return View();
+            try
+            {
+                var data = _context.TblTransactions.FirstOrDefault(x => x.Id == expenseViewModel.Id);
+                if (data == null)
+                {
+                    return NotFound("Expense not found");
+                }
+                data.Name = expenseViewModel.Name;
+                data.Note = expenseViewModel.Note;
+                data.Amount = expenseViewModel.Amount;
+                data.PaymentModeId = expenseViewModel.PaymentModeId;
+                data.CategoryId = expenseViewModel.CategoryId;
+                data.ModifiedAt = DateTime.UtcNow;
+                _context.TblTransactions.Update(data);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Expense updated successfully!";
+                return RedirectToAction("Edit");
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Something went wrong. Please try again.";
+                return View();
+            }
         }
-        public IActionResult Details()
+        public IActionResult Delete(int id)
         {
-            return View();
+            var data = _context.TblTransactions.FirstOrDefault(x => x.Id == id);
+            return View(data);
+        }
+        [HttpPost]
+        public IActionResult DeleteTransaction(int id)
+        {
+            var data = _context.TblTransactions.FirstOrDefault(x => x.Id == id);
+            data.IsDeleted = true;
+            _context.TblTransactions.Update(data);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Details(int id)
+        {
+            try
+            {
+                ExpenseViewModel expenseViewModels = new ExpenseViewModel();
+                var expenseResult = await (from expense in _context.TblTransactions
+                                           join category in _context.TblCategories on expense.CategoryId equals category.Id
+                                           join paymentMode in _context.TblPaymentModes on expense.PaymentModeId equals paymentMode.Id
+                                           where expense.Id == id
+                                           select new ExpenseViewModel
+                                           {
+                                               Id = expense.Id,
+                                               Name = expense.Name,
+                                               Category = category.Name,
+                                               Amount = expense.Amount,
+                                               PaymentMode = paymentMode.PaymentMode,
+                                               CreatedAt = expense.CreatedAt,
+                                               ModifiedAt = expense.ModifiedAt,
+                                             
+                                           }
+                                           ).FirstOrDefaultAsync();
+                if ( expenseResult != null ) {
+                    expenseViewModels = expenseResult;
+                }
+                else
+                {
+                    return NotFound("Expense not found");
+                }
+                return View(expenseViewModels);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
     }
 }

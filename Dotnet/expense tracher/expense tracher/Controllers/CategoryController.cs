@@ -15,7 +15,7 @@ namespace expense_tracher.Controllers
         // GET: CategoryController
         public ActionResult Index()
         {
-            var data = _context.TblCategories.ToList();
+            var data = _context.TblCategories.Where(x => x.IsDeleted != true).ToList();
             return View(data);
         }
         
@@ -109,22 +109,18 @@ namespace expense_tracher.Controllers
         // GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var data = _context.TblCategories.Where(x => x.Id == id).FirstOrDefault();
+            return View(data);
         }
 
-        // POST: CategoryController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult DeleteTransaction(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var data = _context.TblCategories.FirstOrDefault(x => x.Id == id);
+            data.IsDeleted = true;
+            _context.TblCategories.Update(data);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
