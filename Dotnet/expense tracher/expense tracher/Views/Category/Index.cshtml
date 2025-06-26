@@ -6,13 +6,12 @@
 <div class="row">
     <div class="col-sm-8"><h4>Categories</h4></div>
     <div class="col-sm-4">
-        <input class="form-control" placeholder="Search" />
+        <input id="searchInput" class="form-control" placeholder="Search" onkeyup="filterCategoryTable()" />
     </div>
 </div>
-<hr class="mb-4" />
-
+<hr class="mb-4"/>
 <div class="card">
-    <table class="table">
+    <table class="table" id="categoryTable">
         <thead>
             <tr>
                 <th width="80%">Name</th>
@@ -20,11 +19,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var item in Model)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>@item.Name</td>
-                    <td><a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill me-3"></i></a>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill me-3"></i></a>
                         <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil me-3"></i></a>
                         <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-layout-text-window-reverse me-3"></i></a>
                     </td>
@@ -34,4 +34,27 @@
     </table>
 </div>
 
+@section Scripts {
+    <script>
+        function filterCategoryTable() {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toLowerCase();
+            const rows = document.querySelectorAll("#categoryTable tbody tr");
 
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                let match = false;
+
+                // Only check Name, Amount, Category, PaymentMode (not Action)
+                for (let i = 0; i < cells.length - 1; i++) {
+                    if (cells[i].textContent.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                row.style.display = match ? "" : "none";
+            });
+        }
+    </script>
+}

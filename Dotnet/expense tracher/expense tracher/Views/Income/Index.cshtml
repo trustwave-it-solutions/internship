@@ -29,34 +29,25 @@
     </div>
 
     <div class="col-sm-4">
-        <input class="form-control float-end" placeholder="Search" />
+        <input id="searchInput" class="form-control float-end" placeholder="Search" onkeyup="filterIncomeTable()" />
     </div>
 </div>
-<hr class="mb-4"/>
+
+<hr class="mb-4" />
+
 <div class="card">
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentMode)
-            </th>
-            <th>
-                Action
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-            @foreach(var item in Model)
+    <table class="table" id="incomeTable">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Amount)</th>
+                <th>@Html.DisplayNameFor(model => model.Category)</th>
+                <th>@Html.DisplayNameFor(model => model.PaymentMode)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>@item.Name</td>
@@ -70,46 +61,32 @@
                     </td>
                 </tr>
             }
-           
-@* @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentMode.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-} *@
-    </tbody>
-</table>
+        </tbody>
+    </table>
 </div>
+
+@section Scripts {
+    <script>
+        function filterIncomeTable() {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById("incomeTable");
+            const rows = table.getElementsByTagName("tr");
+
+            // Start at 1 to skip the table header row
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName("td");
+                let match = false;
+
+                for (let j = 0; j < cells.length - 1; j++) { // exclude Action column
+                    if (cells[j].textContent.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = match ? "" : "none";
+            }
+        }
+    </script>
+}

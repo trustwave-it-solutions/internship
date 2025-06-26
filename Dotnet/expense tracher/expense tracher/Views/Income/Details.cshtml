@@ -49,6 +49,14 @@
                         <div class="col-md-6 mb-3">
 
                             <div class="form-group">
+                                <label asp-for="Amount" class="control-label"></label>
+                                <input asp-for="Amount" class="form-control" />
+                                <span asp-validation-for="Amount" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+
+                            <div class="form-group">
                                 <label asp-for="Category" class="control-label"></label>
                                 <input asp-for="Category" class="form-control" />
                                 <span asp-validation-for="Category" class="text-danger"></span>
