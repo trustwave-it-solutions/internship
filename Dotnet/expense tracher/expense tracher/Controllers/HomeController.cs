@@ -23,7 +23,7 @@ namespace expense_tracher.Controllers
                 var userIdString = User.FindFirst("Id")?.Value;
                 int userId = int.Parse(userIdString);
                 DashboardViewModel dashboardViewModel = new DashboardViewModel();
-                dashboardViewModel.UserName = User.FindFirst("UserName")?.Value ?? "Guest";
+                dashboardViewModel.UserName = _context.TblUsers.Where(x => x.Id == userId).FirstOrDefault().UserName;
                 dashboardViewModel.Expenses = await (from expense in _context.TblTransactions
                                                      join category in _context.TblCategories on expense.CategoryId equals category.Id
                                                      where expense.IsDeleted != true && expense.UserId == userId && expense.CreatedAt >= DateTime.Now.AddMonths(-1) && expense.PaymentTypeId==2

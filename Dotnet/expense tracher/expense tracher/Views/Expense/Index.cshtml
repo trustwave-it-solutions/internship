@@ -2,9 +2,26 @@
 <div class="row justify-content-end mb-4">
     <div class="col-sm-6"><a asp-action="Create"class="primary-btn float-end">Add Expense</a></div>
 </div>
-
+<div class="col-sm-8"><h4>Expense</h4></div>
 <div class="row">
-    <div class="col-sm-8"><h4>Expense</h4></div>
+    <div class="col-md-8">
+        <form method="get" asp-action="Index">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label>From Date</label>
+                    <input type="date" name="fromDate" class="form-control" value="@Context.Request.Query["fromDate"]" />
+                </div>
+                <div class="col-md-3">
+                    <label>To Date</label>
+                    <input type="date" name="toDate" class="form-control" value="@Context.Request.Query["toDate"]" />
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a asp-action="Index" class="btn btn-secondary">Reset</a>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="col-sm-4">
         <input class="form-control" placeholder="Search" />
     </div>
