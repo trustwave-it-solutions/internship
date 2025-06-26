@@ -125,6 +125,11 @@ namespace expense_tracher.Controllers
                     ModelState.AddModelError("ConfirmPassword", "New password and confirm password do not match.");
                     return View(changepasswordViewModel);
                 }
+                if (changepasswordViewModel.OldPassword == changepasswordViewModel.NewPassword)
+                {
+                    ModelState.AddModelError("NewPassword", "New password cannot be the same as old password.");
+                    return View(changepasswordViewModel);
+                }
                 user.Password = PasswordHelper.HashPassword(changepasswordViewModel.NewPassword);
                 _context.SaveChanges();
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);

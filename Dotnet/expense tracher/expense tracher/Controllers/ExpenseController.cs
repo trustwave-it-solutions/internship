@@ -53,6 +53,7 @@ namespace expense_tracher.Controllers
                     categoryList = categoryViewModel
                 };
                 return View(expenseViewModel);
+              
             }
             catch
             {
@@ -82,7 +83,7 @@ namespace expense_tracher.Controllers
                 };
                 _context.TblTransactions.Add(tblTransaction);
                 _context.SaveChanges();
-                TempData["SuccessMessage"] = "Category updated successfully!";
+                TempData["SuccessMessage"] = "Expense Created successfully!";
                 return RedirectToAction("Create");
             }
             catch
