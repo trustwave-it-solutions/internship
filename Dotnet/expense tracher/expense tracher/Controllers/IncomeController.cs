@@ -15,12 +15,14 @@ namespace expense_tracher.Controllers
         }
         public async Task<IActionResult> Index(DateTime? fromDate, DateTime? toDate)
         {
+            var userIdString = User.FindFirst("Id")?.Value;
+            int userId = int.Parse(userIdString);
             List<IncomeViewModel> incomeViewModels = new List<IncomeViewModel>();
             //var expense = _context.TblTransactions.Where(x => x.IsDeleted != true).ToList();
             var incomeResult = await (from income in _context.TblTransactions
                                        join category in _context.TblCategories on income.CategoryId equals category.Id
                                        join paymentMode in _context.TblPaymentModes on income.PaymentModeId equals paymentMode.Id
-                                       where income.IsDeleted != true && income.PaymentTypeId == 1
+                                       where income.IsDeleted != true && income.PaymentTypeId == 1 && income.UserId == userId
                                       select new IncomeViewModel
                                        {
                                            Id = income.Id,
