@@ -14,7 +14,7 @@ namespace expense_tracher.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime? fromDate, DateTime? toDate)
         {
             List<ExpenseViewModel> expenseViewModels = new List<ExpenseViewModel>();
             //var expense = _context.TblTransactions.Where(x => x.IsDeleted != true).ToList();
@@ -28,9 +28,18 @@ namespace expense_tracher.Controllers
                                            Name = expense.Name,
                                            Category = category.Name,
                                            Amount = expense.Amount,
-                                           PaymentMode = paymentMode.PaymentMode
+                                           PaymentMode = paymentMode.PaymentMode,
+                                           CreatedAt = expense.CreatedAt,
                                        }
                                        ).ToListAsync();
+            if (fromDate.HasValue)
+            {
+                expenseResult = expenseResult.Where(x => x.CreatedAt <= toDate).ToList();
+            }
+            if (toDate.HasValue)
+            {
+                expenseResult = expenseResult.Where(x => x.CreatedAt <= toDate).ToList();
+            }
             return View(expenseResult);
         }
         public IActionResult Create()
