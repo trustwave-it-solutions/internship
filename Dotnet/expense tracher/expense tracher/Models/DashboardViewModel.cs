@@ -1,4 +1,5 @@
 ﻿namespace expense_tracher.Models
+namespace expense_tracher.Models
 {
     public class DashboardViewModel
     {
